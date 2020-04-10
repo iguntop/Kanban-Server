@@ -2,9 +2,10 @@ const {verify} = require("../helpers/jwt")
 const {User} = require("../models")
 
 function Authentication(req,res,next){
-    try{
-        let veri = verify(req.headers.token)
     
+    console.log(req.headers.token);
+        let veri = verify(req.headers.token)
+        
         if (veri){
 
             User.findOne({
@@ -29,11 +30,7 @@ function Authentication(req,res,next){
             })
             
         }
-    }catch{
-        return res.status(500).json({
-            msg:"Internal Server Error"
-        })
-    }
+   
     
 }
 

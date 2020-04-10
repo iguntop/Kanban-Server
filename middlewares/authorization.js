@@ -1,24 +1,27 @@
 const {Usertask,Task} = require("../models")
 
 function Authorization(req,res,next){
+    
+    console.log(req.params.id,req.currentuserid);
     Usertask.findOne({
         where :{
-            id:req.params.id,
+            TaskId:req.params.id,
             UserId:req.currentuserid
         }
     })
     .then(result=>{
-        console.log(result);
         if (result != null){
             return next()
         }else{
-            return res.status(400).json({
-                msg:"UnAuthorized"
+            console.log(result);
+            return res.status(401).json({
+                msg:"UnAuthorized",
+                data:result
             })
         }
     })
     .catch(err=>{
-        return res.status(400).json({
+        return res.status(401).json({
             msg:"UnAuthorized"
         })
     })

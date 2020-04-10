@@ -36,7 +36,67 @@ class Controller {
         })
 
     }
-    static update(req,res){
+    static updateStatusForwared(req,res){
+        let id = req.params.id
+        let status 
+        if(req.params.status =='Backlog'){
+           status = 'Todo'
+        }else if(req.params.status =='Todo'){
+            status = 'Done'
+        }else if(req.params.status =='Done'){
+            status = 'Completed'
+        }
+        console.log(id,status);
+        
+        Task.update({status:status},{
+            where:{
+                id:id
+            }
+        })
+        .then(result=>{
+            res.status(200).json({
+                msg:'Update status success',
+                data:result
+
+            })
+        })
+        .catch(err=>{
+            res.status(400).json({
+                msg:'Update status failed',
+                data:err
+            })
+        })
+    }
+    static updateStatusBackward(req,res){
+        let id = req.params.id
+        let status 
+        if(req.params.status =='Todo'){
+           status = 'Backlog'
+        }else if(req.params.status =='Done'){
+            status = 'Todo'
+        }else if(req.params.status =='Completed'){
+            status = 'Done'
+        }
+        console.log(id,status);
+        
+        Task.update({status:status},{
+            where:{
+                id:id
+            }
+        })
+        .then(result=>{
+            res.status(200).json({
+                msg:'Update status success',
+                data:result
+
+            })
+        })
+        .catch(err=>{
+            res.status(400).json({
+                msg:'Update status failed',
+                data:err
+            })
+        })
         
     }
     static delete(req,res){
@@ -74,7 +134,20 @@ class Controller {
         })
     }
     static viewall(req,res){
-        
+        Task.findAll()
+        .then(result=>{
+            return res.status(200).json({
+                msg:"find All success",
+                data:result
+            })
+        })
+        .catch(err=>{
+            return res.status(400).json({
+                msg:"find All fail",
+                data:err
+            })
+        })
+
     }
     
 
