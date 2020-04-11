@@ -52,12 +52,14 @@ class Controller{
                     id:result.id,
                     username:result.username
                 }
+                
                 let token = generateToken(payload)
                 res.status(201).json({
-
+                    
                     id:result.id,
                     token:token
                 })
+                
             }
             else{
                 res.status(401).json({
