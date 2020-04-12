@@ -35,6 +35,28 @@ class Controller {
         })
 
     }
+
+    static addmember(req,res){
+        let dataDetail={
+            UserId : +req.params.userid,
+            TaskId : +req.params.id
+        }        
+        
+        Usertask.create(dataDetail)
+        .then(succes=>{
+            
+            return res.status(200).json({
+                msg:"Taks add success"
+            })
+        })
+        .catch(err=>{
+            return res.status(400).json({
+                msg:"Task add fail",
+                data:err
+            })
+        })
+    }
+
     static updateStatusForwared(req,res){
         let id = req.params.id
         let status 
@@ -153,23 +175,28 @@ class Controller {
 
     }
     static checkmember(req,res){
+        console.log("jalanin check member",req.params.id);
+        
         User.findAll({
             include:[{
                 model:Usertask,
+                required:false,
                 where:{
                     TaskId:req.params.id
                 }
             }]
+                
+                
         })
         .then(result=>{
             return res.status(200).json({
-                msg:"find User member success",
+                msg:"find All success",
                 data:result
             })
         })
         .catch(err=>{
             return res.status(400).json({
-                msg:"find User member fail",
+                msg:"find All fail",
                 data:err
             })
         })
