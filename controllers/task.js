@@ -1,5 +1,4 @@
-const {Task} = require("../models")
-const {Usertask} = require("../models")
+const {Task,Usertask,User} = require("../models")
 class Controller {
     static create(req,res){
         let Data ={
@@ -134,7 +133,11 @@ class Controller {
         })
     }
     static viewall(req,res){
-        Task.findAll()
+        Task.findAll({
+            include:[{
+                model:User
+            }]
+        })
         .then(result=>{
             return res.status(200).json({
                 msg:"find All success",
@@ -149,7 +152,28 @@ class Controller {
         })
 
     }
-    
+    static checkmember(req,res){
+        User.findAll({
+            include:[{
+                model:Usertask,
+                where:{
+                    TaskId:req.params.id
+                }
+            }]
+        })
+        .then(result=>{
+            return res.status(200).json({
+                msg:"find User member success",
+                data:result
+            })
+        })
+        .catch(err=>{
+            return res.status(400).json({
+                msg:"find User member fail",
+                data:err
+            })
+        })
+    }
 
 }
 module.exports = Controller

@@ -8,5 +8,5 @@ router.put("/forward/:status/:id",authentication,authorization,controllertask.up
 router.put("/backward/:status/:id",authentication,authorization,controllertask.updateStatusBackward)
 router.delete("/:id",authentication,authorization,controllertask.delete)
 router.get("/",authentication,controllertask.viewall)
-
+router.get("/:id",authentication,controllertask.checkmember)
 module.exports = router
