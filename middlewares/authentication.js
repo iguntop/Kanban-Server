@@ -14,6 +14,7 @@ function Authentication(req,res,next){
                 }
             })
             .then(result=>{
+                console.log('author sucess');
                 req.currentuserid = result.id
                 return next()
             })

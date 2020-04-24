@@ -46,7 +46,7 @@ class Controller {
         .then(succes=>{
             
             return res.status(200).json({
-                msg:"Taks add success"
+                msg:"member add success"
             })
         })
         .catch(err=>{
