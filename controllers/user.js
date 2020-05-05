@@ -1,7 +1,6 @@
 const {User} = require("../models")
 const{generateToken} = require("../helpers/jwt")
 const{Decrypt} = require ("../helpers/bcrypt")
-
 class Controller{
     static register(req,res){
         let Data={
@@ -20,7 +19,8 @@ class Controller{
             res.status(200).json({
                 msg:" Success add user",
                 id:result.id,
-                token:token
+                token:token,
+                username:result.username
             })
         })
         .catch(err=>{
@@ -30,10 +30,11 @@ class Controller{
             })
         })
     }
-    static loginGmail(req,res){
+    static loginGmail(req,res){       
+        
         let Data = {
-            username:req.body.username,
-            password:'test'
+            username:req.currentGmailId,
+            password:process.env.SECRET_PASS
         }
         console.log('>>>>>>>>',Data);
         
@@ -57,7 +58,8 @@ class Controller{
                 res.status(201).json({
                     
                     id:result.id,
-                    token:token
+                    token:token,
+                    username:result.username
                 })
                 
             }
@@ -69,11 +71,10 @@ class Controller{
         })
         .catch(err=>{
             let Data={
-                username:req.body.username,
-                email:req.body.username,
-                password:'test'
-            }
-    
+                username:req.currentGmailId,
+                email:req.currentGmailId,
+                password:process.env.SECRET_PASS
+            }            
             User.create(Data)
             .then(result=>{
                 let payload={
@@ -84,7 +85,8 @@ class Controller{
                 res.status(200).json({
                     msg:" Success add user",
                     id:result.id,
-                    token:token
+                    token:token,
+                    username:result.email
                 })
             })
             .catch(err=>{
@@ -121,10 +123,10 @@ class Controller{
                 }
                 
                 let token = generateToken(payload)
-                res.status(201).json({
-                    
+                res.status(200).json({                    
                     id:result.id,
-                    token:token
+                    token:token,
+                    username:result.username
                 })
                 
             }
